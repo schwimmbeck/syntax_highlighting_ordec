@@ -25,6 +25,8 @@ contains multiple implementations of ORD highlighting.
   VS Code extension assets
 - [tree-sitter-ord](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord):
   ORD tree-sitter grammar and queries
+- `emacs/`:
+  Emacs package files for ORD integration
 - `vendor/tree-sitter-python/`:
   upstream Python tree-sitter grammar used by the Emacs integration
 
@@ -95,6 +97,8 @@ See:
 Implementation style:
 
 - a real ORD parser derived from Python grammar
+- a small `ord-mode.el` package that loads gracefully even without local
+  grammar builds
 - Emacs-specific queries layered on top
 - local Python tree-sitter grammar vendored for proper Python highlighting
 
@@ -136,6 +140,10 @@ If you want ORD support in Emacs, use this repository together with:
 
 - [IDEmacs](/home/dominik/Work/workspace/IDEmacs)
 
+The Emacs-specific code lives in:
+
+- `emacs/ord-mode.el`
+
 Build the parser libraries:
 
 ORD:
@@ -156,8 +164,13 @@ cc -fPIC -I./src -c src/parser.c src/scanner.c
 cc -shared -o libtree-sitter-python.so parser.o scanner.o
 ```
 
-Then configure Emacs to load those grammar directories. The companion
-`IDEmacs` repository already contains the needed Emacs-side wiring.
+Then configure Emacs to load `emacs/ord-mode.el`. The companion `IDEmacs`
+repository already contains the needed Emacs-side wiring.
+
+If you do not build the grammars yet, `ord-mode` still works as a Python-based
+major mode with lightweight ORD keyword highlighting. Tree-sitter highlighting
+activates automatically once the grammar directories and shared libraries are
+present.
 
 ## Design Notes
 
