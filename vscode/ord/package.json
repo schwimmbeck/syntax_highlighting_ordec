@@ -1,0 +1,37 @@
+{
+  "name": "ord",
+  "displayName": "ORD",
+  "description": "Highlighting for the ORD language",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.106.1"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "ord",
+      "aliases": ["ORD", "ord"],
+      "extensions": [".ord"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [
+      {
+        "language": "ord",
+        "scopeName": "source.ord",
+        "path": "./syntaxes/ord.tmLanguage.json"
+      },
+      {
+        "scopeName": "source.ord.injection",
+        "path": "./syntaxes/ord-injection.tmLanguage.json",
+        "injectTo": ["source.ord"]
+      }
+    ],
+    "themes": [{
+      "label": "ORD Theme",
+      "uiTheme": "vs-dark",
+      "path": "./themes/ord-color-theme.json"
+    }]
+  }
+}

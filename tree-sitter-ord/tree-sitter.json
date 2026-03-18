@@ -1,0 +1,46 @@
+{
+  "grammars": [
+    {
+      "name": "ord",
+      "camelcase": "Ord",
+      "scope": "source.ord",
+      "path": ".",
+      "file-types": [
+        "ord"
+      ],
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm",
+      "injection-regex": "py"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "Apache-2.0",
+    "description": "Ord grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Max Brunsfeld",
+        "email": "maxbrunsfeld@gmail.com"
+      },
+      {
+        "name": "Amaan Qureshi",
+        "email": "amaanq12@gmail.com"
+      },
+      {
+	"name": "Dominik Schwimmbeck",
+	"email": "dominik.schwimmbeck@tu-berlin.de"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/schwimmbeck/tree-sitter-ord"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}

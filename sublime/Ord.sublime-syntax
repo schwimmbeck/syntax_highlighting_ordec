@@ -1,0 +1,240 @@
+%YAML 1.2
+---
+###############################################################################
+# Ord Syntax Definition
+#
+# Extends Python.sublime-syntax from Sublime Text with Ord-specific constructs:
+# - cell definitions (cell Name: suite)
+# - viewgen definitions (viewgen name(args) -> Type: suite)
+# - Context elements (Type target: suite)
+# - Connection operator (--)
+# - Constrain operator (!)
+# - path/net declarations
+# - SI unit suffixes on numbers (100n, 3.14u)
+# - Rational numbers (1/3)
+# - Parameter access (.$param)
+# - Dotted context access (.name, ..name)
+#
+# SPDX-FileCopyrightText: 2026 ORDeC contributors
+# SPDX-License-Identifier: Apache-2.0
+###############################################################################
+
+name: Ord
+scope: source.ord
+version: 2
+extends: Packages/Python/Python.sublime-syntax
+
+file_extensions:
+  - ord
+
+variables:
+  si_suffix: '[afpnumkMGT]'
+  digits: '(?:\d+(?:_\d+)*)'
+  exponent: '(?:[eE][-+]?{{digits}})'
+  identifier_continue: '[[:alnum:]_]'
+  identifier: '[[:alpha:]_]{{identifier_continue}}*'
+  ord_context_types: '(?:inout|input|output|port)\b'
+  python_keywords: '(?:and|as|assert|async|await|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|nonlocal|not|or|pass|raise|return|try|while|with|yield)\b'
+
+contexts:
+
+  ##[ STATEMENTS ]##############################################################
+
+  statements:
+    - meta_prepend: true
+    - include: ord-viewgen-definitions
+    - include: ord-path-net-statements
+    - include: ord-constrain-statements
+
+  ##[ CLASS / CELL DEFINITIONS ]################################################
+
+  class-definitions:
+    - meta_prepend: true
+    - match: \bcell\b
+      scope: meta.class.ord keyword.declaration.class.ord
+      push:
+        - class-definition-base-list
+        - type-parameter-list
+        - class-definition-name
+
+  ##[ VIEWGEN DEFINITIONS ]#####################################################
+
+  ord-viewgen-definitions:
+    - match: \bviewgen\b
+      scope: keyword.declaration.function.ord
+      push: ord-viewgen-name
+
+  ord-viewgen-name:
+    - match: '{{identifier}}'
+      scope: entity.name.function.ord
+      set: ord-viewgen-args
+    - include: immediately-pop
+
+  ord-viewgen-args:
+    - meta_scope: meta.function.ord
+    - match: \(
+      scope: punctuation.section.parameters.begin.ord
+      set: ord-viewgen-args-body
+    - match: '->'
+      scope: punctuation.separator.return-type.ord
+      set: ord-viewgen-return-type
+    - include: immediately-pop
+
+  ord-viewgen-args-body:
+    - meta_scope: meta.function.parameters.ord
+    - match: \)
+      scope: punctuation.section.parameters.end.ord
+      set: ord-viewgen-return-arrow
+    - include: expression-in-a-group
+
+  ord-viewgen-return-arrow:
+    - meta_scope: meta.function.ord
+    - match: '->'
+      scope: punctuation.separator.return-type.ord
+      set: ord-viewgen-return-type
+    - include: immediately-pop
+
+  ord-viewgen-return-type:
+    - meta_scope: meta.function.ord
+    - match: '{{identifier}}'
+      scope: entity.name.type.ord
+      set: ord-viewgen-colon
+    - include: immediately-pop
+
+  ord-viewgen-colon:
+    - meta_scope: meta.function.ord
+    - match: ':'
+      scope: punctuation.section.block.begin.ord
+      pop: 1
+    - include: immediately-pop
+
+  ##[ PATH / NET STATEMENTS ]###################################################
+
+  ord-path-net-statements:
+    - match: \b(path|net)\b
+      scope: keyword.declaration.ord
+      push: ord-path-net-targets
+
+  ord-path-net-targets:
+    - match: ','
+      scope: punctuation.separator.ord
+    - match: '{{identifier}}'
+      scope: variable.other.ord
+    - match: $\n?
+      pop: 1
+    - include: line-continuation-or-pop
+
+  ##[ CONSTRAIN STATEMENT ]#####################################################
+
+  ord-constrain-statements:
+    - match: '!(?!=)'
+      scope: keyword.operator.constrain.ord
+
+  ##[ BLOCK STATEMENTS ]########################################################
+
+  # Context element: Type target: suite  (e.g., inout vdd: ..., Nmos m1: ...)
+  block-statements:
+    - meta_prepend: true
+    - include: ord-context-elements
+
+  ord-context-elements:
+    - match: |-
+        (?x)
+        (?!{{python_keywords}})
+        (?!(?:cell|viewgen|path|net)\b)
+        (?=
+          {{identifier}} \s+
+          {{identifier}}
+          (?:
+            \s* \. \s* {{identifier}}
+          | \s* \[ [^\]\n]* \]
+          )*
+          \s* :
+        )
+      push: ord-context-element-type
+
+  ord-context-element-type:
+    - match: '{{ord_context_types}}'
+      scope: storage.type.ord
+      set: ord-context-target
+    - match: '{{identifier}}'
+      scope: entity.name.type.ord
+      set: ord-context-target
+    - include: immediately-pop
+
+  ord-context-target:
+    - meta_scope: meta.statement.context.ord
+    - match: ':'
+      scope: punctuation.section.block.begin.ord
+      pop: 1
+    - match: \.
+      scope: punctuation.accessor.dot.ord
+      push: ord-context-target-member
+    - match: \[
+      scope: punctuation.section.brackets.begin.ord
+      push: ord-context-target-subscript
+    - match: '{{identifier}}'
+      scope: variable.other.context-target.ord
+    - include: line-continuation-or-pop
+
+  ord-context-target-member:
+    - match: '{{identifier}}'
+      scope: variable.other.member.ord
+      pop: 1
+    - include: immediately-pop
+
+  ord-context-target-subscript:
+    - meta_scope: meta.brackets.ord
+    - match: \]
+      scope: punctuation.section.brackets.end.ord
+      pop: 1
+    - include: expression-in-a-group
+
+  ##[ NUMBERS WITH SI SUFFIXES ]################################################
+
+  numbers:
+    - meta_prepend: true
+    # Rational: 1/3, 100/7
+    - match: '({{digits}})\s*(/)\s*({{digits}})\b'
+      scope: meta.number.rational.ord
+      captures:
+        1: constant.numeric.value.ord
+        2: punctuation.separator.rational.ord
+        3: constant.numeric.value.ord
+    # Float with SI suffix: 1.5u, 3.14n, 1e-3k
+    - match: |-
+        (?x)
+        (
+          {{digits}} (?: (\.) {{digits}}? {{exponent}}? | {{exponent}} )
+        | (\.) {{digits}} {{exponent}}?
+        ) ({{si_suffix}})
+      scope: meta.number.float.decimal.ord
+      captures:
+        1: constant.numeric.value.ord
+        2: punctuation.separator.decimal.ord
+        3: punctuation.separator.decimal.ord
+        4: constant.numeric.suffix.ord
+    # Integer with SI suffix: 100n, 20u, 1M
+    - match: '({{digits}})({{si_suffix}})\b'
+      scope: meta.number.integer.decimal.ord
+      captures:
+        1: constant.numeric.value.ord
+        2: constant.numeric.suffix.ord
+
+  ##[ EXPRESSIONS ]#############################################################
+
+  expressions-common:
+    - meta_prepend: true
+    # Parameter access: .$param
+    - match: '\.\$'
+      scope: keyword.operator.accessor.ord
+      push: ord-param-name
+    # Connection operator: --
+    - match: '--'
+      scope: keyword.operator.connection.ord
+
+  ord-param-name:
+    - match: '{{identifier}}'
+      scope: variable.other.member.ord
+      pop: 1
+    - include: immediately-pop
