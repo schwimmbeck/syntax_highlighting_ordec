@@ -16,9 +16,10 @@
 ;; - tree-sitter-python in `ord-mode-python-treesit-dir'
 ;;
 ;; When those assets are present and loadable, ORD buffers use Python
-;; tree-sitter highlighting plus ORD-specific tree-sitter rules.  Otherwise the
-;; mode falls back to ordinary `python-mode' behavior with a small regex-based
-;; ORD keyword supplement.
+;; tree-sitter highlighting as a base, with ORD-specific tree-sitter rules
+;; layered on top using :override t to fix ERROR-node artifacts.  Otherwise
+;; the mode falls back to ordinary `python-mode' behavior with a small
+;; regex-based ORD keyword supplement.
 
 ;;; Code:
 
@@ -71,11 +72,10 @@ When nil, use `queries/highlights-emacs.scm' under `ord-mode-treesit-dir'."
 
 (defconst ord-mode--treesit-feature-list
   '((comment definition)
-    (keyword string type)
+    (keyword string type ord)
     (assignment builtin constant decorator
                 escape-sequence number string-interpolation)
-    (bracket delimiter function operator variable property)
-    (ord))
+    (bracket delimiter function operator variable property))
   "Python tree-sitter features plus the ORD-specific feature group.")
 
 (defvar ord-mode--treesit-font-lock-settings nil
@@ -111,7 +111,8 @@ When nil, use `queries/highlights-emacs.scm' under `ord-mode-treesit-dir'."
           (add-to-list 'treesit-extra-load-path dir))))))
 
 (defun ord-mode--compile-treesit-settings ()
-  "Compile merged Python and ORD tree-sitter font-lock settings if possible."
+  "Compile merged Python and ORD tree-sitter font-lock settings if possible.
+ORD rules use :override t so they take precedence over Python ERROR nodes."
   (setq ord-mode--treesit-font-lock-settings nil)
   (let ((highlights-file (ord-mode--emacs-highlights-file)))
     (when (and (featurep 'treesit)
@@ -125,6 +126,7 @@ When nil, use `queries/highlights-emacs.scm' under `ord-mode-treesit-dir'."
              (treesit-font-lock-rules
               :language 'ord
               :feature 'ord
+              :override t
               (with-temp-buffer
                 (insert-file-contents highlights-file)
                 (buffer-string))))))))
@@ -156,7 +158,8 @@ When nil, use `queries/highlights-emacs.scm' under `ord-mode-treesit-dir'."
   (setq-local python-indent-guess-indent-offset nil)
   (setq-local indent-tabs-mode t)
   (ord-mode--maybe-enable-treesit)
-  (font-lock-add-keywords nil ord-mode--extra-font-lock-keywords 'prepend)
+  (unless (ord-mode--treesit-ready-p)
+    (font-lock-add-keywords nil ord-mode--extra-font-lock-keywords 'prepend))
   (when (fboundp 'font-lock-flush)
     (font-lock-flush)))
 
