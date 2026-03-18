@@ -39,15 +39,17 @@
   name: (identifier) @font-lock-variable-name-face)
 
 ; ORD member / parameter access and connections
+; Use keyword face for ORD-specific operators (., $, --) to match
+; Sublime scoping (keyword.operator.accessor / keyword.operator.connection).
 
 (ord_local_attribute
-  "." @font-lock-operator-face
+  "." @font-lock-keyword-face
   attribute: (identifier) @font-lock-variable-name-face)
 
 (ord_parameter_access
-  "." @font-lock-operator-face
-  "$" @font-lock-operator-face
+  "." @font-lock-keyword-face
+  "$" @font-lock-keyword-face
   attribute: (identifier) @font-lock-variable-name-face)
 
 (ord_connection_statement
-  "--" @font-lock-operator-face)
+  "--" @font-lock-keyword-face)
