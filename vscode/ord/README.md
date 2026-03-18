@@ -1,59 +1,82 @@
 # ORD Language Support for VS Code
 
-Syntax highlighting for the [ORD hardware description language](https://ordec.readthedocs.io/), used by the ORDeC (Open Rapid Design Composer) IC design platform.
+VS Code extension assets for highlighting `.ord` files.
 
-## Features
+This integration is TextMate-based and is intended for users who want ORD
+syntax support inside Visual Studio Code without building a language server.
 
-- Syntax highlighting for `.ord` files, including:
-  - `cell` and `viewgen` declarations
-  - `path` and `net` declarations
-  - Connection operator (`--`)
-  - Constrain operator (`!`)
-  - Parameter access (`.$param`)
-  - Dotted context access (`.name`, `..name`)
-  - SI unit suffixes (`100n`, `3.14u`, `1M`)
-  - Rational numbers (`1/3`, `100/7`)
-  - Context elements (`Nmos m1:`, `inout vdd:`)
-  - Full Python syntax support (ORD extends Python)
-- Includes an ORD-specific dark color theme
+## What It Provides
+
+- syntax highlighting for `.ord` files
+- ORD-specific token scopes for declarations and inline constructs
+- file association for the `.ord` extension
+- language configuration
+- an optional ORD-specific dark theme
+
+## What It Highlights
+
+- `cell` declarations
+- `viewgen` declarations
+- `path` and `net` declarations
+- context headers like `output y:` and `Inv i1:`
+- connection operator `--`
+- constrain operator `!`
+- parameter access like `.$param`
+- SI unit suffixes and rational numbers
+- Python syntax inside ORD files
+
+## Repository Layout
+
+Key files in this extension folder:
+
+- `package.json`
+- `language-configuration.json`
+- `syntaxes/ord.tmLanguage.json`
+- `syntaxes/ord-injection.tmLanguage.json`
+- `themes/ord-color-theme.json`
 
 ## Installation
 
-### From VSIX (recommended)
+### Option 1: Package As VSIX
 
-1. Install the packaging tool if you don't have it:
-   ```
-   npm install -g @vscode/vsce
-   ```
-2. From the `vscode/ord/` directory, package the extension:
-   ```
-   vsce package
-   ```
-3. Install the resulting `.vsix` file in VS Code:
-   ```
-   code --install-extension ord-0.0.1.vsix
-   ```
+From `vscode/ord/`:
 
-### Development Mode
+```bash
+npm install
+npx @vscode/vsce package
+code --install-extension *.vsix
+```
 
-1. Open the `vscode/ord/` folder in VS Code.
-2. Press `F5` to launch a new VS Code window with the extension loaded.
-3. Open any `.ord` file to see syntax highlighting in action.
+### Option 2: Development Mode
 
-### Manual Installation
+1. Open `vscode/ord/` in VS Code.
+2. Press `F5`.
+3. A new Extension Development Host window will open.
+4. Open a `.ord` file in that window.
 
-Copy the `vscode/ord/` directory into your VS Code extensions folder:
+### Option 3: Manual Local Installation
 
-- **Linux:** `~/.vscode/extensions/ord/`
-- **macOS:** `~/.vscode/extensions/ord/`
-- **Windows:** `%USERPROFILE%\.vscode\extensions\ord\`
+Copy the extension folder into your VS Code extensions directory.
+
+- Linux: `~/.vscode/extensions/ord/`
+- macOS: `~/.vscode/extensions/ord/`
+- Windows: `%USERPROFILE%\\.vscode\\extensions\\ord\\`
 
 Then restart VS Code.
 
 ## Theme
 
-The extension includes an **ORD Dark Plus** color theme optimized for ORD files. To activate it:
+The extension includes an optional ORD-specific dark theme.
 
-1. Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
-2. Type "Color Theme" and select **Preferences: Color Theme**
-3. Select **ORD Theme**
+To enable it:
+
+1. open the command palette
+2. run `Preferences: Color Theme`
+3. select the ORD theme
+
+## Notes
+
+- This extension is TextMate/scope based, not parser based.
+- It is a good fit if you want straightforward highlighting in VS Code.
+- If you want structural parsing or tree-sitter-based editor support, use the
+  tree-sitter implementation instead.

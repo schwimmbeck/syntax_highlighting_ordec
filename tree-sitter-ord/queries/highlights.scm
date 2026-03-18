@@ -1,25 +1,73 @@
-; Identifier naming conventions
+; Generic tree-sitter highlighting for ORD.
+; This keeps Python-like highlighting as the base and adds ORD-specific nodes.
 
-(identifier) @variable
+; ORD declarations and headers
 
-((identifier) @constructor
- (#match? @constructor "^[A-Z]"))
+[
+  "cell"
+  "viewgen"
+  "path"
+  "net"
+  "inout"
+  "input"
+  "output"
+  "port"
+] @keyword
+
+(cell_definition
+  name: (identifier) @type)
+
+(viewgen_definition
+  name: (identifier) @function)
+
+(viewgen_definition
+  return_type: (type (identifier) @type))
+
+(context_definition
+  kind: (type (identifier) @type)
+  target: (context_target (identifier) @variable))
+
+(path_net_statement
+  name: (identifier) @variable)
+
+; ORD member / parameter access and inline statements
+
+(ord_local_attribute
+  "." @punctuation.special
+  attribute: (identifier) @property)
+
+(ord_parameter_access
+  "." @punctuation.special
+  "$" @operator
+  attribute: (identifier) @property)
+
+(ord_connection_statement
+  "--" @operator)
+
+; Python-like identifier conventions
 
 ((identifier) @constant
  (#match? @constant "^[A-Z][A-Z_]*$"))
 
-; Function calls
+((identifier) @type
+ (#match? @type "^[A-Z]"))
+
+(identifier) @variable
+
+; Functions, calls, decorators
 
 (decorator) @function
 (decorator
   (identifier) @function)
 
+(function_definition
+  name: (identifier) @function)
+
 (call
   function: (attribute attribute: (identifier) @function.method))
+
 (call
   function: (identifier) @function)
-
-; Builtin functions
 
 ((call
   function: (identifier) @function.builtin)
@@ -27,13 +75,11 @@
    @function.builtin
    "^(abs|all|any|ascii|bin|bool|breakpoint|bytearray|bytes|callable|chr|classmethod|compile|complex|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|vars|zip|__import__)$"))
 
-; Function definitions
+(attribute
+  attribute: (identifier) @property)
 
-(function_definition
-  name: (identifier) @function)
-
-(attribute attribute: (identifier) @property)
-(type (identifier) @type)
+(type
+  (identifier) @type)
 
 ; Literals
 
@@ -56,7 +102,10 @@
   "{" @punctuation.special
   "}" @punctuation.special) @embedded
 
+; Operators and keywords
+
 [
+  "--"
   "-"
   "-="
   "!="

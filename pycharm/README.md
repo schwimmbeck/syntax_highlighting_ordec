@@ -1,48 +1,68 @@
-# ORD Language Support for PyCharm / IntelliJ IDEA
+# ORD Language Support for PyCharm / JetBrains IDEs
 
-Syntax highlighting for the [ORD hardware description language](https://ordec.readthedocs.io/), used by the ORDeC (Open Rapid Design Composer) IC design platform.
+JetBrains IDE support for `.ord` files using a TextMate bundle.
 
-This uses IntelliJ's built-in TextMate bundle support to provide syntax highlighting for `.ord` files.
+This integration is intended for PyCharm and other JetBrains IDEs that support
+TextMate bundles. It provides syntax highlighting for ORD without requiring a
+custom JetBrains plugin.
 
-## Features
+## What It Highlights
 
-- Syntax highlighting for `.ord` files, including:
-  - `cell` and `viewgen` declarations
-  - `path` and `net` declarations
-  - Connection operator (`--`)
-  - Constrain operator (`!`)
-  - Parameter access (`.$param`)
-  - Dotted context access (`.name`, `..name`)
-  - SI unit suffixes (`100n`, `3.14u`, `1M`)
-  - Rational numbers (`1/3`, `100/7`)
-  - Context elements (`Nmos m1:`, `inout vdd:`)
-  - Full Python syntax support (ORD extends Python)
+- `cell` declarations
+- `viewgen` declarations
+- `path` and `net` declarations
+- context headers like `output y:` and `Inv i1:`
+- connection operator `--`
+- constrain operator `!`
+- parameter access like `.$param`
+- dotted ORD member access
+- SI unit suffixes and rational numbers
+- Python syntax inside ORD files
 
-## Installation
+## Files
 
-1. Open PyCharm (or any JetBrains IDE).
-2. Go to **Settings** (`Ctrl+Alt+S` / `Cmd+,`).
-3. Navigate to **Editor > TextMate Bundles**.
-4. Click the **+** button.
-5. Browse to and select the `ord.tmbundle` folder (the folder inside `pycharm/`, not `pycharm/` itself).
-6. Click **OK** to confirm.
-7. Restart the IDE if prompted.
-
-After installation, any `.ord` file will automatically be highlighted using the ORD grammar.
+- [ord.tmbundle](/home/dominik/Work/workspace/syntax_highlighting_ordec/pycharm/ord.tmbundle)
 
 ## Supported IDEs
 
-This TextMate bundle works with all JetBrains IDEs that support TextMate bundles:
+Any JetBrains IDE with TextMate bundle support, including:
 
-- PyCharm (Community and Professional)
-- IntelliJ IDEA (Community and Ultimate)
+- PyCharm
+- IntelliJ IDEA
 - CLion
 - WebStorm
 - GoLand
-- Other JetBrains IDEs
+
+## Installation
+
+1. Open your JetBrains IDE.
+2. Open settings:
+   - Linux/Windows: `Ctrl+Alt+S`
+   - macOS: `Cmd+,`
+3. Go to `Editor > TextMate Bundles`.
+4. Click `+`.
+5. Select the `ord.tmbundle` directory inside this repository.
+6. Apply the changes.
+7. Reopen the `.ord` file if needed.
+
+Important:
+
+- select `pycharm/ord.tmbundle`
+- do not select the parent `pycharm/` directory
+
+## Verification
+
+Open a `.ord` file. You should see TextMate-based highlighting applied.
+
+If the file is not recognized automatically:
+
+1. open the file
+2. use `Associate with File Type` if prompted
+3. or check TextMate bundle settings again
 
 ## Notes
 
-- The TextMate bundle uses the same grammar as the VS Code extension.
-- Color mapping depends on your IDE's current color scheme. The IDE automatically maps TextMate scopes to its own color settings.
-- To customize colors: **Settings > Editor > Color Scheme > TextMate** lets you adjust how TextMate scopes are rendered.
+- This is a TextMate-based solution, not a parser plugin.
+- The final colors depend on your active JetBrains color scheme.
+- If you want structural parsing rather than just syntax highlighting, use the
+  tree-sitter / Emacs path instead.

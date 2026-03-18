@@ -1,7 +1,22 @@
 /**
- * @file Python grammar for tree-sitter
+ * @file ORD grammar for tree-sitter, derived from the Python grammar
  * @author Max Brunsfeld <maxbrunsfeld@gmail.com>
+ * @author Dominik Schwimmbeck <dominik.schwimmbeck@tu-berlin.de>
  * @license MIT
+ *
+ * ORD is not an unrelated language; it extends Python with domain-specific
+ * declarations and inline constructs used by ORDeC. However, for tree-sitter
+ * this still requires a real grammar fork rather than a tiny query-only
+ * overlay, because constructs such as `cell`, `viewgen`, context headers,
+ * `path`/`net`, `.member = ...`, and `.member -- ...` must parse into stable
+ * syntax nodes instead of falling into generic Python nodes or `ERROR`.
+ *
+ * In practice this grammar works as:
+ * - Python syntax as the structural base
+ * - ORD-specific productions added where the language diverges
+ * - tree-sitter queries layered on top for editor highlighting
+ *
+ * References:
  * @see {@link https://docs.python.org/2/reference/grammar.html|Python 2 grammar}
  * @see {@link https://docs.python.org/3/reference/grammar.html|Python 3 grammar}
  */

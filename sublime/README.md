@@ -1,47 +1,68 @@
 # ORD Language Support for Sublime Text
 
-Syntax highlighting for the [ORD hardware description language](https://ordec.readthedocs.io/), used by the ORDeC (Open Rapid Design Composer) IC design platform.
+Sublime Text syntax highlighting for `.ord` files.
 
-## Features
+This implementation extends Sublime Text's built-in Python syntax and adds
+ORD-specific rules on top. That makes it a good fit for a language like ORD,
+which is Python-like but adds its own declarations and inline operators.
 
-- Extends Sublime Text's built-in Python syntax with ORD-specific constructs:
-  - `cell` and `viewgen` declarations
-  - `path` and `net` declarations
-  - Connection operator (`--`)
-  - Constrain operator (`!`)
-  - Parameter access (`.$param`)
-  - Dotted context access (`.name`, `..name`)
-  - SI unit suffixes (`100n`, `3.14u`, `1M`)
-  - Rational numbers (`1/3`, `100/7`)
-  - Context elements (`Nmos m1:`, `inout vdd:`)
+## What It Highlights
+
+- `cell` declarations
+- `viewgen` declarations
+- `path` and `net` declarations
+- context headers like `output y:` and `Nmos m1:`
+- connection operator `--`
+- constrain operator `!`
+- parameter access like `.$param`
+- dotted context access like `.name`
+- SI unit suffixes like `100n`, `3.14u`, `1M`
+- rational numbers like `1/3`
+- normal Python syntax inside ORD files
+
+## Files
+
+- [Ord.sublime-syntax](/home/dominik/Work/workspace/syntax_highlighting_ordec/sublime/Ord.sublime-syntax)
 
 ## Installation
 
-### Manual Installation
+### Option 1: Install As A User Syntax
 
-1. Copy the `Ord.sublime-syntax` file into your Sublime Text Packages directory:
+Copy `Ord.sublime-syntax` into your Sublime Text `Packages/User/` directory.
 
-   - **Linux:** `~/.config/sublime-text/Packages/User/`
-   - **macOS:** `~/Library/Application Support/Sublime Text/Packages/User/`
-   - **Windows:** `%APPDATA%\Sublime Text\Packages\User\`
+- Linux: `~/.config/sublime-text/Packages/User/`
+- macOS: `~/Library/Application Support/Sublime Text/Packages/User/`
+- Windows: `%APPDATA%\\Sublime Text\\Packages\\User\\`
 
-   Alternatively, create a dedicated `Ord` package directory:
+### Option 2: Install As Its Own Package
 
-   - **Linux:** `~/.config/sublime-text/Packages/Ord/`
-   - **macOS:** `~/Library/Application Support/Sublime Text/Packages/Ord/`
-   - **Windows:** `%APPDATA%\Sublime Text\Packages\Ord\`
+Create an `Ord/` folder in your Sublime packages directory and copy the syntax
+file there.
 
-2. Restart Sublime Text.
+- Linux: `~/.config/sublime-text/Packages/Ord/`
+- macOS: `~/Library/Application Support/Sublime Text/Packages/Ord/`
+- Windows: `%APPDATA%\\Sublime Text\\Packages\\Ord\\`
 
-3. Open any `.ord` file -- it should automatically use ORD syntax highlighting.
+Example:
 
-### Via Menu
+```bash
+mkdir -p ~/.config/sublime-text/Packages/Ord
+cp Ord.sublime-syntax ~/.config/sublime-text/Packages/Ord/
+```
 
-You can also install by navigating to:
-**Preferences > Browse Packages...** which opens the Packages directory. Create an `Ord/` folder there and copy `Ord.sublime-syntax` into it.
+## Activation
 
-## Verification
+Restart Sublime Text, then open a `.ord` file.
 
-After installation, open a `.ord` file. You should see "Ord" displayed in the bottom-right corner of the Sublime Text status bar, indicating the ORD syntax is active.
+If syntax selection does not happen automatically:
 
-If it doesn't activate automatically, click the syntax selector in the bottom-right corner and choose **Ord** from the list.
+1. click the syntax selector in the bottom-right corner
+2. choose `Ord`
+
+## Notes
+
+- This version is regex/scope based, not parser based.
+- It intentionally reuses Sublime's Python syntax instead of reimplementing
+  all of Python.
+- For structural parsing and editor-aware syntax, use the tree-sitter version
+  instead.

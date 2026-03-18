@@ -1,73 +1,171 @@
 # syntax_highlighting_ordec
 
-Shared syntax-highlighting repository for the ORD language.
+Shared syntax-highlighting and grammar repository for the ORD language.
 
-This repo collects editor-specific support for `.ord` files. ORD is close to
-Python syntactically, but adds its own declarations and inline constructs such
-as `cell`, `viewgen`, `path`, `net`, context headers, member assignments, and
-connection statements.
+ORD is used by ORDeC and is syntactically close to Python, but it adds its own
+language constructs such as:
+
+- `cell` declarations
+- `viewgen` declarations
+- context headers like `output y:` or `Inv i1:`
+- `path` and `net` statements
+- inline member assignments like `.align = East`
+- connection statements like `.y -- out`
+
+Because different editors support syntax in different ways, this repository
+contains multiple implementations of ORD highlighting.
 
 ## Repository Layout
 
 - [sublime](/home/dominik/Work/workspace/syntax_highlighting_ordec/sublime):
-  Sublime Text syntax definition extending Python syntax
+  Sublime Text syntax extending Python syntax
 - [pycharm](/home/dominik/Work/workspace/syntax_highlighting_ordec/pycharm):
   JetBrains TextMate bundle
 - [vscode](/home/dominik/Work/workspace/syntax_highlighting_ordec/vscode):
   VS Code extension assets
 - [tree-sitter-ord](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord):
-  tree-sitter grammar and Emacs-oriented queries
+  ORD tree-sitter grammar and queries
+- `vendor/tree-sitter-python/`:
+  upstream Python tree-sitter grammar used by the Emacs integration
 
-## Current Status
+## Which Integration Should You Use?
 
-The editor integrations are not all implemented the same way:
+- Sublime Text:
+  use the Sublime syntax definition in `sublime/`
+- JetBrains IDEs:
+  use the TextMate bundle in `pycharm/`
+- VS Code:
+  use the extension in `vscode/ord/`
+- Emacs with tree-sitter:
+  use `tree-sitter-ord/` and the `IDEmacs` repository
 
-- Sublime extends Python syntax with ORD-specific rules
-- JetBrains support is based on TextMate scopes
-- VS Code support is TextMate-based
-- tree-sitter support uses a dedicated ORD parser derived from Python grammar
+## Editor Support Overview
 
-## tree-sitter / Emacs
+### Sublime Text
 
-The tree-sitter folder currently contains:
+Implementation style:
 
-- grammar source
-- generated parser files
-- highlight queries
-- compiled shared library for local Emacs use
+- extends Sublime's built-in Python syntax
+- adds ORD-specific regex-based contexts
 
-Important files:
+Pros:
 
-- [grammar.js](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/grammar.js)
-- [highlights-emacs.scm](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/queries/highlights-emacs.scm)
-- [highlights.scm](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/queries/highlights.scm)
-- [libtree-sitter-ord.so](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/libtree-sitter-ord.so)
+- easy to install
+- good highlighting for editing
+- strong Python baseline because it reuses Sublime's Python support
 
-The active Emacs config that consumes this grammar lives in:
+See:
+
+- [sublime/README.md](/home/dominik/Work/workspace/syntax_highlighting_ordec/sublime/README.md)
+
+### JetBrains / PyCharm
+
+Implementation style:
+
+- uses a TextMate bundle
+- compatible with PyCharm and other JetBrains IDEs with TextMate support
+
+Pros:
+
+- simple installation
+- works across multiple JetBrains IDEs
+
+See:
+
+- [pycharm/README.md](/home/dominik/Work/workspace/syntax_highlighting_ordec/pycharm/README.md)
+
+### VS Code
+
+Implementation style:
+
+- TextMate grammar packaged as a VS Code extension
+- includes language configuration and an optional theme
+
+Pros:
+
+- standard VS Code workflow
+- can be packaged as `.vsix`
+
+See:
+
+- [vscode/ord/README.md](/home/dominik/Work/workspace/syntax_highlighting_ordec/vscode/ord/README.md)
+
+### tree-sitter / Emacs
+
+Implementation style:
+
+- a real ORD parser derived from Python grammar
+- Emacs-specific queries layered on top
+- local Python tree-sitter grammar vendored for proper Python highlighting
+
+Pros:
+
+- best long-term foundation for structural editor support
+- enables proper parsing instead of regex-only highlighting
+- suitable for future navigation, folding, imenu, and language-aware features
+
+See:
+
+- [tree-sitter-ord/README.md](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/README.md)
+- [IDEmacs](/home/dominik/Work/workspace/IDEmacs)
+
+## External Setup
+
+### Clone This Repository
+
+```bash
+git clone <your-remote-url> syntax_highlighting_ordec
+cd syntax_highlighting_ordec
+```
+
+### Initialize Submodules
+
+If you use the Emacs/tree-sitter setup, initialize submodules too:
+
+```bash
+git submodule update --init --recursive
+```
+
+This is currently needed for:
+
+- `vendor/tree-sitter-python`
+
+## Emacs / tree-sitter Setup
+
+If you want ORD support in Emacs, use this repository together with:
 
 - [IDEmacs](/home/dominik/Work/workspace/IDEmacs)
 
-## Design Goal
+Build the parser libraries:
 
-The long-term goal is to keep a single ORD language model and then adapt it to
-each editor with as little duplication as possible. In practice:
-
-- TextMate-style editors reuse regex-based scopes
-- tree-sitter-based editors should rely on a real ORD parser
-
-## Regeneration
-
-To regenerate the parser after grammar changes:
+ORD:
 
 ```bash
-cd /home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord
+cd /path/to/syntax_highlighting_ordec/tree-sitter-ord
 tree-sitter generate
 cc -fPIC -I./src -c src/parser.c src/scanner.c
 cc -shared -o libtree-sitter-ord.so parser.o scanner.o
 ```
 
-## Next Work
+Python:
 
-- improve Python highlighting reuse inside the ORD tree-sitter path
-- reduce editor-specific duplication across Sublime, VS Code, and Emacs
-- package Emacs ORD support more cleanly so less wiring is needed in `init.el`
+```bash
+cd /path/to/syntax_highlighting_ordec/vendor/tree-sitter-python
+tree-sitter generate
+cc -fPIC -I./src -c src/parser.c src/scanner.c
+cc -shared -o libtree-sitter-python.so parser.o scanner.o
+```
+
+Then configure Emacs to load those grammar directories. The companion
+`IDEmacs` repository already contains the needed Emacs-side wiring.
+
+## Design Notes
+
+The implementations are intentionally different:
+
+- Sublime / JetBrains / VS Code are scope-based and regex/TextMate-oriented
+- tree-sitter is parser-based and structural
+
+This repository does not force one universal representation because editor
+capabilities differ. The goal is consistency of language coverage, not
+identical internal implementation.
