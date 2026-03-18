@@ -41,8 +41,14 @@
   "$" @font-lock-keyword-face
   attribute: (identifier) @font-lock-variable-name-face)
 
+((ord_parameter_access) @font-lock-variable-name-face
+ (#match "\\$[[:alpha:]_][[:alnum:]_]*" @font-lock-variable-name-face))
+
 (ord_connection_statement
   "--" @font-lock-keyword-face)
+
+((ord_connection_statement) @font-lock-keyword-face
+ (#match "--" @font-lock-keyword-face))
 
 ; Python-like identifier conventions
 

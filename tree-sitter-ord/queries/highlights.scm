@@ -41,8 +41,14 @@
   "$" @operator
   attribute: (identifier) @property)
 
+((ord_parameter_access) @property
+ (#match? @property "\\$[A-Za-z_][A-Za-z0-9_]*"))
+
 (ord_connection_statement
   "--" @operator)
+
+((ord_connection_statement) @operator
+ (#match? @operator "--"))
 
 ; Python-like identifier conventions
 

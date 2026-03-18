@@ -61,7 +61,12 @@ When nil, use `queries/highlights-emacs.scm' under `ord-mode-treesit-dir'."
      (2 font-lock-function-name-face)
      (3 font-lock-type-face nil t))
     ("^\\s-*\\(path\\|net\\)\\b" 1 font-lock-keyword-face)
-    ("^\\s-*\\(inout\\|input\\|output\\|port\\)\\b" 1 font-lock-keyword-face))
+    ("^\\s-*\\(inout\\|input\\|output\\|port\\)\\b" 1 font-lock-keyword-face)
+    ("\\.\\(\\$[[:alpha:]_][[:alnum:]_]*\\)"
+     (1 font-lock-variable-name-face))
+    ("\\.[[:alpha:]_][[:alnum:]_]*\\s-*\\(--\\)"
+     (1 font-lock-keyword-face))
+    ("\\(--\\)" 1 font-lock-keyword-face))
   "Fallback regex rules for key ORD declarations.")
 
 (defconst ord-mode--treesit-feature-list
@@ -150,8 +155,10 @@ When nil, use `queries/highlights-emacs.scm' under `ord-mode-treesit-dir'."
   (setq-local python-indent-offset 4)
   (setq-local python-indent-guess-indent-offset nil)
   (setq-local indent-tabs-mode t)
+  (ord-mode--maybe-enable-treesit)
   (font-lock-add-keywords nil ord-mode--extra-font-lock-keywords 'prepend)
-  (ord-mode--maybe-enable-treesit))
+  (when (fboundp 'font-lock-flush)
+    (font-lock-flush)))
 
 (ord-mode--register-grammar-dirs)
 (ord-mode--compile-treesit-settings)
