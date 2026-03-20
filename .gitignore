@@ -10,6 +10,10 @@ tree-sitter-ord/src/grammar.json
 tree-sitter-ord/src/node-types.json
 tree-sitter-ord/src/tree_sitter/
 
+# AI assistant files
+CLAUDE.md
+AGENTS.md
+
 # Editor/IDE config
 .vscode/
 .idea/
