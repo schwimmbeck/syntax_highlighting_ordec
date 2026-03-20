@@ -1,0 +1,19 @@
+# Compiled artifacts
+*.o
+*.so
+*.dll
+*.dylib
+
+# tree-sitter generated files
+tree-sitter-ord/src/parser.c
+tree-sitter-ord/src/grammar.json
+tree-sitter-ord/src/node-types.json
+tree-sitter-ord/src/tree_sitter/
+
+# Editor/IDE config
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
