@@ -27,6 +27,7 @@
 ;;; Code:
 
 (require 'python)
+(require 'seq)
 (require 'subr-x)
 (require 'treesit nil t)
 
@@ -34,18 +35,30 @@
   "Editing support for the ORD language."
   :group 'languages)
 
+(defconst ord-mode--repo-root
+  (when-let* ((source-file (or load-file-name (buffer-file-name)))
+              (source-dir (file-name-directory (file-truename source-file))))
+    (expand-file-name ".." source-dir))
+  "Root directory of the syntax_highlighting_ordec checkout when loaded from source.")
+
+(defun ord-mode--first-existing-dir (&rest candidates)
+  "Return the first directory from CANDIDATES that exists."
+  (seq-find (lambda (dir) (and dir (file-directory-p dir))) candidates))
+
 (defcustom ord-mode-python-treesit-dir
-  (let ((default-dir (expand-file-name "~/Work/workspace/syntax_highlighting_ordec/vendor/tree-sitter-python/")))
-    (when (file-directory-p default-dir)
-      default-dir))
+  (ord-mode--first-existing-dir
+   (getenv "ORD_MODE_PYTHON_TREESIT_DIR")
+   (when ord-mode--repo-root
+     (expand-file-name "vendor/tree-sitter-python" ord-mode--repo-root)))
   "Optional path to a local tree-sitter Python grammar directory."
   :type '(choice (const :tag "Disabled" nil) directory)
   :group 'ord-mode)
 
 (defcustom ord-mode-treesit-dir
-  (let ((default-dir (expand-file-name "~/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/")))
-    (when (file-directory-p default-dir)
-      default-dir))
+  (ord-mode--first-existing-dir
+   (getenv "ORD_MODE_TREESIT_DIR")
+   (when ord-mode--repo-root
+     (expand-file-name "tree-sitter-ord" ord-mode--repo-root)))
   "Optional path to a local tree-sitter ORD grammar directory."
   :type '(choice (const :tag "Disabled" nil) directory)
   :group 'ord-mode)

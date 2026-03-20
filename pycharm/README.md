@@ -21,7 +21,7 @@ custom JetBrains plugin.
 
 ## Files
 
-- [ord.tmbundle](/home/dominik/Work/workspace/syntax_highlighting_ordec/pycharm/ord.tmbundle)
+- [ord.tmbundle](./ord.tmbundle)
 
 ## Supported IDEs
 

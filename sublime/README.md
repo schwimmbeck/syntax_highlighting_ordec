@@ -22,7 +22,7 @@ which is Python-like but adds its own declarations and inline operators.
 
 ## Files
 
-- [Ord.sublime-syntax](/home/dominik/Work/workspace/syntax_highlighting_ordec/sublime/Ord.sublime-syntax)
+- [Ord.sublime-syntax](./Ord.sublime-syntax)
 
 ## Installation
 

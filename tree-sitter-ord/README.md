@@ -26,17 +26,17 @@ Because of that, this grammar is implemented as:
 
 ## Important Files
 
-- [grammar.js](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/grammar.js):
+- [grammar.js](./grammar.js):
   grammar source
-- [src/parser.c](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/src/parser.c):
+- [src/parser.c](./src/parser.c):
   generated parser
-- [src/node-types.json](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/src/node-types.json):
+- [src/node-types.json](./src/node-types.json):
   generated node definitions
-- [queries/highlights.scm](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/queries/highlights.scm):
+- [queries/highlights.scm](./queries/highlights.scm):
   generic highlight query
-- [queries/highlights-emacs.scm](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/queries/highlights-emacs.scm):
+- [queries/highlights-emacs.scm](./queries/highlights-emacs.scm):
   Emacs-specific highlight query
-- [queries/tags.scm](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/queries/tags.scm):
+- [queries/tags.scm](./queries/tags.scm):
   tags query
 
 ## Build
@@ -67,7 +67,7 @@ tree-sitter parse /path/to/file.ord
 This grammar is intended to be consumed together with:
 
 - `vendor/tree-sitter-python`
-- the Emacs configuration in `IDEmacs`
+- the Emacs configuration in [IDEmacs](https://github.com/schwimmbeck/IDEmacs)
 
 That setup allows Emacs to:
 

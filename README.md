@@ -2,8 +2,8 @@
 
 Shared syntax-highlighting and grammar repository for the ORD language.
 
-ORD is used by ORDeC and is syntactically close to Python, but it adds its own
-language constructs such as:
+ORD is used by [ORDeC](https://github.com/tub-msc/ordec) and is syntactically
+close to Python, but it adds its own language constructs such as:
 
 - `cell` declarations
 - `viewgen` declarations
@@ -17,13 +17,13 @@ contains multiple implementations of ORD highlighting.
 
 ## Repository Layout
 
-- [sublime](/home/dominik/Work/workspace/syntax_highlighting_ordec/sublime):
+- [sublime](./sublime/):
   Sublime Text syntax extending Python syntax
-- [pycharm](/home/dominik/Work/workspace/syntax_highlighting_ordec/pycharm):
+- [pycharm](./pycharm/):
   JetBrains TextMate bundle
-- [vscode](/home/dominik/Work/workspace/syntax_highlighting_ordec/vscode):
+- [vscode](./vscode/):
   VS Code extension assets
-- [tree-sitter-ord](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord):
+- [tree-sitter-ord](./tree-sitter-ord/):
   ORD tree-sitter grammar and queries
 - `emacs/`:
   Emacs package files for ORD integration
@@ -58,7 +58,7 @@ Pros:
 
 See:
 
-- [sublime/README.md](/home/dominik/Work/workspace/syntax_highlighting_ordec/sublime/README.md)
+- [sublime/README.md](./sublime/README.md)
 
 ### JetBrains / PyCharm
 
@@ -74,7 +74,7 @@ Pros:
 
 See:
 
-- [pycharm/README.md](/home/dominik/Work/workspace/syntax_highlighting_ordec/pycharm/README.md)
+- [pycharm/README.md](./pycharm/README.md)
 
 ### VS Code
 
@@ -90,7 +90,7 @@ Pros:
 
 See:
 
-- [vscode/ord/README.md](/home/dominik/Work/workspace/syntax_highlighting_ordec/vscode/ord/README.md)
+- [vscode/ord/README.md](./vscode/ord/README.md)
 
 ### tree-sitter / Emacs
 
@@ -110,15 +110,15 @@ Pros:
 
 See:
 
-- [tree-sitter-ord/README.md](/home/dominik/Work/workspace/syntax_highlighting_ordec/tree-sitter-ord/README.md)
-- [IDEmacs](/home/dominik/Work/workspace/IDEmacs)
+- [tree-sitter-ord/README.md](./tree-sitter-ord/README.md)
+- the companion [IDEmacs](https://github.com/schwimmbeck/IDEmacs) repository
 
 ## External Setup
 
 ### Clone This Repository
 
 ```bash
-git clone <your-remote-url> syntax_highlighting_ordec
+git clone git@github.com:schwimmbeck/syntax_highlighting_ordec.git
 cd syntax_highlighting_ordec
 ```
 
@@ -138,7 +138,7 @@ This is currently needed for:
 
 If you want ORD support in Emacs, use this repository together with:
 
-- [IDEmacs](/home/dominik/Work/workspace/IDEmacs)
+- the companion [IDEmacs](https://github.com/schwimmbeck/IDEmacs) repository
 
 The Emacs-specific code lives in:
 
@@ -165,7 +165,8 @@ cc -shared -o libtree-sitter-python.so parser.o scanner.o
 ```
 
 Then configure Emacs to load `emacs/ord-mode.el`. The companion `IDEmacs`
-repository already contains the needed Emacs-side wiring.
+repository already contains the needed Emacs-side wiring and defaults to a
+sibling `syntax_highlighting_ordec` checkout.
 
 If you do not build the grammars yet, `ord-mode` still works as a Python-based
 major mode with lightweight ORD keyword highlighting. Tree-sitter highlighting

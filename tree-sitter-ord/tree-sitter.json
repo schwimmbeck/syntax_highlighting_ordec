@@ -32,7 +32,7 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/schwimmbeck/tree-sitter-ord"
+      "repository": "https://github.com/schwimmbeck/syntax_highlighting_ordec"
     }
   },
   "bindings": {
