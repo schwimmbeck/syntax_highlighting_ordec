@@ -1,3 +1,6 @@
+; SPDX-FileCopyrightText: 2026 ORDeC contributors
+; SPDX-License-Identifier: Apache-2.0
+
 ; Emacs-specific tree-sitter highlighting for ORD.
 ; Only ORD-specific constructs — Python highlighting comes from
 ; python--treesit-settings via the Python parser.

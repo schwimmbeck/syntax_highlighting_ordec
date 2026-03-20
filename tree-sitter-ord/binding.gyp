@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2016 Max Brunsfeld
+# SPDX-FileCopyrightText: 2026 ORDeC contributors
+# SPDX-License-Identifier: MIT AND Apache-2.0
+
 {
   "targets": [
     {

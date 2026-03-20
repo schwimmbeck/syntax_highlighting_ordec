@@ -1,3 +1,6 @@
+; SPDX-FileCopyrightText: 2016 Max Brunsfeld
+; SPDX-License-Identifier: MIT
+
 (module (expression_statement (assignment left: (identifier) @name) @definition.constant))
 
 (class_definition

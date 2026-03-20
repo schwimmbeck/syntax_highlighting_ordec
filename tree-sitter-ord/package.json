@@ -2,6 +2,7 @@
   "name": "tree-sitter-ord",
   "version": "0.0.1",
   "description": "ord grammar for tree-sitter",
+  "license": "MIT AND Apache-2.0",
   "main": "bindings/node",
   "keywords": [
     "parsing",

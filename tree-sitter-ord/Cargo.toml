@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2016 Max Brunsfeld
+# SPDX-FileCopyrightText: 2026 ORDeC contributors
+# SPDX-License-Identifier: MIT AND Apache-2.0
+
 [package]
 name = "tree-sitter-ord"
 description = "ord grammar for the tree-sitter parsing library"
@@ -6,7 +10,7 @@ keywords = ["incremental", "parsing", "ord"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/tree-sitter/tree-sitter-ord"
 edition = "2018"
-license = "MIT"
+license = "MIT AND Apache-2.0"
 
 build = "bindings/rust/build.rs"
 include = [

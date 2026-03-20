@@ -1,3 +1,7 @@
+; SPDX-FileCopyrightText: 2016 Max Brunsfeld
+; SPDX-FileCopyrightText: 2026 ORDeC contributors
+; SPDX-License-Identifier: MIT AND Apache-2.0
+
 ; Generic tree-sitter highlighting for ORD.
 ; This keeps Python-like highlighting as the base and adds ORD-specific nodes.
 

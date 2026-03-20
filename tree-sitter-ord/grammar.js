@@ -1,8 +1,11 @@
+// SPDX-FileCopyrightText: 2016 Max Brunsfeld
+// SPDX-FileCopyrightText: 2026 ORDeC contributors
+// SPDX-License-Identifier: MIT AND Apache-2.0
+
 /**
  * @file ORD grammar for tree-sitter, derived from the Python grammar
  * @author Max Brunsfeld <maxbrunsfeld@gmail.com>
  * @author Dominik Schwimmbeck <dominik.schwimmbeck@tu-berlin.de>
- * @license MIT
  *
  * ORD is not an unrelated language; it extends Python with domain-specific
  * declarations and inline constructs used by ORDeC. However, for tree-sitter

@@ -1,0 +1,52 @@
+version = 1
+
+[[annotations]]
+# Boilerplate files:
+path = [
+    ".gitignore",
+    ".gitmodules",
+    "vscode/ord/.gitignore",
+    "vscode/ord/.vscodeignore",
+    "vscode/ord/.vscode/launch.json",
+]
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+# License text at repository root:
+path = [
+    "LICENSE",
+]
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+# Documentation and metadata files without practical inline SPDX headers:
+path = [
+    "README.md",
+    "pycharm/README.md",
+    "pycharm/ord.tmbundle/Syntaxes/ord.tmLanguage.json",
+    "pycharm/ord.tmbundle/info.plist",
+    "sublime/README.md",
+    "tree-sitter-ord/README.md",
+    "vscode/ord/CHANGELOG.md",
+    "vscode/ord/LICENSE.md",
+    "vscode/ord/README.md",
+    "vscode/ord/language-configuration.json",
+    "vscode/ord/package.json",
+    "vscode/ord/syntaxes/ord-injection.tmLanguage.json",
+    "vscode/ord/syntaxes/ord.tmLanguage.json",
+    "vscode/ord/themes/ord-color-theme.json",
+    "vscode/ord/vsc-extension-quickstart.md",
+]
+SPDX-FileCopyrightText = "2026 ORDeC contributors"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+# tree-sitter metadata files derived from upstream templates:
+path = [
+    "tree-sitter-ord/package.json",
+    "tree-sitter-ord/tree-sitter.json",
+]
+SPDX-FileCopyrightText = "2016 Max Brunsfeld and 2026 ORDeC contributors"
+SPDX-License-Identifier = "MIT AND Apache-2.0"

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2016 Max Brunsfeld
+// SPDX-FileCopyrightText: 2026 ORDeC contributors
+// SPDX-License-Identifier: MIT AND Apache-2.0
+
 try {
   module.exports = require("../../build/Release/tree_sitter_ord_binding");
 } catch (error1) {

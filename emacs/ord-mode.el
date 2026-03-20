@@ -1,5 +1,8 @@
 ;;; ord-mode.el --- ORD major mode with optional tree-sitter support -*- lexical-binding: t; -*-
 
+;; SPDX-FileCopyrightText: 2026 ORDeC contributors
+;; SPDX-License-Identifier: Apache-2.0
+
 ;; Author: Dominik Schwimmbeck <dominik.schwimmbeck@tu-berlin.de>
 ;; Maintainer: Dominik Schwimmbeck <dominik.schwimmbeck@tu-berlin.de>
 ;; Version: 0.1.0
