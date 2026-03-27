@@ -3,6 +3,7 @@
   "displayName": "ORD",
   "description": "Highlighting for the ORD language",
   "version": "0.0.1",
+  "license": "SEE LICENSE IN LICENSE.md",
   "engines": {
     "vscode": "^1.106.1"
   },

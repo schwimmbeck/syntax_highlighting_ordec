@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Microsoft Corporation
+SPDX-FileCopyrightText: 2026 ORDeC contributors
+SPDX-License-Identifier: MIT AND Apache-2.0
+-->
+
 # Welcome to your VS Code Extension
 
 ## What's in the folder

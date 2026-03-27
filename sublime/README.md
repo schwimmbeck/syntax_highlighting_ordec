@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 ORDeC contributors
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # ORD Language Support for Sublime Text
 
 Sublime Text syntax highlighting for `.ord` files.
@@ -64,5 +69,7 @@ If syntax selection does not happen automatically:
 - This version is regex/scope based, not parser based.
 - It intentionally reuses Sublime's Python syntax instead of reimplementing
   all of Python.
+- It references `Packages/Python/Python.sublime-syntax` at runtime instead of
+  redistributing Sublime's built-in Python syntax files.
 - For structural parsing and editor-aware syntax, use the tree-sitter version
   instead.

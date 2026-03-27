@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 ORDeC contributors
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # ORD Language Support for PyCharm / JetBrains IDEs
 
 JetBrains IDE support for `.ord` files using a TextMate bundle.
@@ -66,3 +71,10 @@ If the file is not recognized automatically:
 - The final colors depend on your active JetBrains color scheme.
 - If you want structural parsing rather than just syntax highlighting, use the
   tree-sitter / Emacs path instead.
+
+## Licensing
+
+- `ord.tmbundle/Syntaxes/ord.tmLanguage.json` is adapted from the
+  MIT-licensed MagicPython Python grammar.
+- `ord.tmbundle/LICENSE-MIT` and `ord.tmbundle/LICENSE-APACHE` carry the
+  redistribution notices for the bundle itself.

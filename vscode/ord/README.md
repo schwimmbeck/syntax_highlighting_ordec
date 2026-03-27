@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 ORDeC contributors
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # ORD Language Support for VS Code
 
 VS Code extension assets for highlighting `.ord` files.
@@ -78,5 +83,10 @@ To enable it:
 
 - This extension is TextMate/scope based, not parser based.
 - It is a good fit if you want straightforward highlighting in VS Code.
+- `ord.tmLanguage.json` is a thin ORDeC wrapper around `source.python`.
+- `ord-injection.tmLanguage.json` carries ORD-specific rules adapted from the
+  JetBrains/MagicPython-derived TextMate grammar in this repository.
+- `LICENSE.md`, `LICENSE-MIT`, and `LICENSE-APACHE` document the package's
+  redistribution obligations.
 - If you want structural parsing or tree-sitter-based editor support, use the
   tree-sitter implementation instead.

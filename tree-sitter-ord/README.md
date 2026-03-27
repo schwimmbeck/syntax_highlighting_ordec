@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 ORDeC contributors
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # tree-sitter-ord
 
 tree-sitter grammar for the ORD language.
@@ -78,3 +83,11 @@ That setup allows Emacs to:
 
 - [tree-sitter](https://github.com/tree-sitter/tree-sitter)
 - [Python 3 grammar](https://docs.python.org/3/reference/grammar.html)
+
+## Licensing
+
+This package is derived from the MIT-licensed `tree-sitter-python` grammar.
+Files that still contain upstream tree-sitter Python material are marked
+`MIT AND Apache-2.0`; ORDeC-only files such as `queries/highlights-emacs.scm`
+remain Apache-2.0. Packaged artifacts include both `LICENSE-MIT` and
+`LICENSE-APACHE`.

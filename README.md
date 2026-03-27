@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 ORDeC contributors
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # syntax_highlighting_ordec
 
 Shared syntax-highlighting and grammar repository for the ORD language.
@@ -183,3 +188,17 @@ The implementations are intentionally different:
 This repository does not force one universal representation because editor
 capabilities differ. The goal is consistency of language coverage, not
 identical internal implementation.
+
+## Licensing and Provenance
+
+- Repository documentation and ORDeC-authored editor assets are licensed under
+  Apache-2.0 unless a file says otherwise.
+- `tree-sitter-ord/` is derived from the MIT-licensed
+  `tree-sitter/tree-sitter-python` grammar. Files that still carry upstream
+  material keep MIT notices alongside Apache-2.0 notices for ORDeC changes.
+- `pycharm/ord.tmbundle/Syntaxes/ord.tmLanguage.json` is adapted from the
+  MIT-licensed MagicPython-style Python TextMate grammar. The VS Code
+  injection grammar reuses the same ORD-specific rule set and carries the same
+  upstream MIT obligations.
+- `sublime/Ord.sublime-syntax` extends Sublime Text's built-in Python syntax
+  at runtime and does not vendor the built-in Python syntax files.

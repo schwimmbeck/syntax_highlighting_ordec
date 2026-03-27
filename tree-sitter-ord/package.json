@@ -4,6 +4,21 @@
   "description": "ord grammar for tree-sitter",
   "license": "MIT AND Apache-2.0",
   "main": "bindings/node",
+  "files": [
+    "Cargo.toml",
+    "LICENSE-APACHE",
+    "LICENSE-MIT",
+    "README.md",
+    "binding.gyp",
+    "bindings/node/*",
+    "bindings/rust/*",
+    "grammar.js",
+    "package.json.license",
+    "queries/*",
+    "src/*",
+    "tree-sitter.json",
+    "tree-sitter.json.license"
+  ],
   "keywords": [
     "parsing",
     "incremental"

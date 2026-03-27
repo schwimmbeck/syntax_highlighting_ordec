@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: NONE
+# SPDX-License-Identifier: CC0-1.0
+
 # Compiled artifacts
 *.o
 *.so
@@ -9,6 +12,7 @@ tree-sitter-ord/src/parser.c
 tree-sitter-ord/src/grammar.json
 tree-sitter-ord/src/node-types.json
 tree-sitter-ord/src/tree_sitter/
+tree-sitter-ord/target/
 
 # AI assistant files
 CLAUDE.md

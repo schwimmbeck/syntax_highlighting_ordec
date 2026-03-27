@@ -1,22 +1,25 @@
-ORD TextMate Grammar
--------------------
+<!--
+SPDX-FileCopyrightText: 2026 ORDeC contributors
+SPDX-License-Identifier: Apache-2.0
+-->
 
-The file ord.tmLanguage.json is a fork of the Python TextMate grammar from the
-"textmate-grammars-themes" project:
+# Licensing
 
-    https://github.com/shikijs/textmate-grammars-themes
-    Path: packages/tm-grammars/grammars/python.json
+This extension package contains a mix of ORDeC-authored Apache-2.0 files and
+files that remain subject to upstream MIT notices:
 
-Original grammar copyright (MIT License) by the textmate-grammars-themes authors.
-This ORD version is modified to add support for the ORD language (a Python superset).
+- `syntaxes/ord.tmLanguage.json` is an ORDeC-authored wrapper that delegates to
+  `source.python` at runtime.
+- `syntaxes/ord-injection.tmLanguage.json` reuses ORD-specific rules from the
+  JetBrains TextMate grammar in this repository. That grammar is adapted from
+  the MIT-licensed MagicPython Python grammar.
+- several scaffold files in this extension folder originate from the
+  MIT-licensed VS Code extension generator and VS Code samples.
+- `themes/ord-color-theme.json` is a Dark+-style theme variant and keeps the
+  upstream MIT notice alongside the Apache-2.0 notice for ORDeC changes.
 
-MIT License (original):
-----------------------
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of the Software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+For redistribution:
 
-[See the original project for full license text]
+- see `LICENSE-APACHE` for ORDeC-authored Apache-2.0 material
+- see `LICENSE-MIT` for the bundled MIT notices that still apply inside this
+  extension package
