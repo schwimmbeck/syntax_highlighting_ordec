@@ -1,22 +1,41 @@
 {
   "name": "ord",
   "displayName": "ORD",
-  "description": "Highlighting for the ORD language",
+  "description": "Highlighting and language-client scaffolding for the ORD language",
   "version": "0.0.1",
   "license": "SEE LICENSE IN LICENSE.md",
+  "main": "./extension.js",
   "engines": {
     "vscode": "^1.106.1"
   },
+  "extensionKind": [
+    "workspace"
+  ],
   "categories": [
     "Programming Languages"
   ],
+  "activationEvents": [
+    "onLanguage:ord",
+    "onCommand:ord.restartLanguageServer",
+    "onCommand:ord.showLanguageServerOutput"
+  ],
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
   "contributes": {
-    "languages": [{
-      "id": "ord",
-      "aliases": ["ORD", "ord"],
-      "extensions": [".ord"],
-      "configuration": "./language-configuration.json"
-    }],
+    "languages": [
+      {
+        "id": "ord",
+        "aliases": [
+          "ORD",
+          "ord"
+        ],
+        "extensions": [
+          ".ord"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
     "grammars": [
       {
         "language": "ord",
@@ -29,10 +48,68 @@
         "injectTo": ["source.ord"]
       }
     ],
-    "themes": [{
-      "label": "ORD Theme",
-      "uiTheme": "vs-dark",
-      "path": "./themes/ord-color-theme.json"
-    }]
+    "themes": [
+      {
+        "label": "ORD Theme",
+        "uiTheme": "vs-dark",
+        "path": "./themes/ord-color-theme.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "ord.restartLanguageServer",
+        "title": "ORD: Restart Language Server"
+      },
+      {
+        "command": "ord.showLanguageServerOutput",
+        "title": "ORD: Show Language Server Output"
+      }
+    ],
+    "configuration": {
+      "title": "ORD",
+      "properties": {
+        "ord.languageServer.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the external ORD language server client."
+        },
+        "ord.languageServer.command": {
+          "type": "string",
+          "default": "ordec-lsp",
+          "markdownDescription": "Command used to launch the ORD language server. Supports `${workspaceFolder}` and `${extensionPath}` placeholders."
+        },
+        "ord.languageServer.args": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "markdownDescription": "Arguments passed to the ORD language server. Supports `${workspaceFolder}` and `${extensionPath}` placeholders."
+        },
+        "ord.languageServer.cwd": {
+          "type": "string",
+          "default": "${workspaceFolder}",
+          "markdownDescription": "Working directory used when launching the ORD language server. Supports `${workspaceFolder}` and `${extensionPath}` placeholders."
+        },
+        "ord.languageServer.env": {
+          "type": "object",
+          "default": {},
+          "additionalProperties": {
+            "type": "string"
+          },
+          "markdownDescription": "Extra environment variables for the ORD language server process."
+        },
+        "ord.languageServer.trace.server": {
+          "type": "string",
+          "default": "off",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "description": "Trace level for language-server protocol logging."
+        }
+      }
+    }
   }
 }

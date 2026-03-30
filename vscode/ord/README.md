@@ -5,10 +5,15 @@ SPDX-License-Identifier: Apache-2.0
 
 # ORD Language Support for VS Code
 
-VS Code extension assets for highlighting `.ord` files.
+VS Code extension assets for `.ord` files.
 
-This integration is TextMate-based and is intended for users who want ORD
-syntax support inside Visual Studio Code without building a language server.
+This integration currently provides two layers:
+
+- TextMate-based highlighting and language configuration
+- a lightweight VS Code language-client scaffold for an external `ordec-lsp`
+
+The highlighting layer works on its own. The language-client layer is intended
+to connect to a future `ordec-lsp` binary once it is available.
 
 ## What It Provides
 
@@ -16,6 +21,8 @@ syntax support inside Visual Studio Code without building a language server.
 - ORD-specific token scopes for declarations and inline constructs
 - file association for the `.ord` extension
 - language configuration
+- VS Code commands for restarting the ORD language server and opening its output
+- settings for launching an external `ordec-lsp`
 - an optional ORD-specific dark theme
 
 ## What It Highlights
@@ -52,6 +59,10 @@ npx @vscode/vsce package
 code --install-extension *.vsix
 ```
 
+If you also want language-server features, make sure an `ordec-lsp` command is
+available on your `PATH`, or configure the launch command through the extension
+settings.
+
 ### Option 2: Development Mode
 
 1. Open `vscode/ord/` in VS Code.
@@ -81,12 +92,27 @@ To enable it:
 
 ## Notes
 
-- This extension is TextMate/scope based, not parser based.
-- It is a good fit if you want straightforward highlighting in VS Code.
+- The shipped highlighting remains TextMate/scope based.
+- The language-client scaffold does not bundle the language server itself.
 - `ord.tmLanguage.json` is a thin ORDeC wrapper around `source.python`.
 - `ord-injection.tmLanguage.json` carries ORD-specific rules adapted from the
   JetBrains/MagicPython-derived TextMate grammar in this repository.
+- The client is designed to launch an external `ordec-lsp` over stdio.
 - `LICENSE.md`, `LICENSE-MIT`, and `LICENSE-APACHE` document the package's
   redistribution obligations.
 - If you want structural parsing or tree-sitter-based editor support, use the
   tree-sitter implementation instead.
+
+## Language Server Settings
+
+The extension contributes the following settings:
+
+- `ord.languageServer.enabled`
+- `ord.languageServer.command`
+- `ord.languageServer.args`
+- `ord.languageServer.cwd`
+- `ord.languageServer.env`
+- `ord.languageServer.trace.server`
+
+`ord.languageServer.command`, `args`, and `cwd` support
+`${workspaceFolder}` and `${extensionPath}` placeholders.
