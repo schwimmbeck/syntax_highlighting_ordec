@@ -7,14 +7,14 @@ SPDX-License-Identifier: Apache-2.0
 
 VS Code extension assets for `.ord` files.
 
-This integration currently provides two layers:
+This integration currently provides three layers:
 
 - TextMate-based highlighting and language configuration
-- a lightweight VS Code language-client scaffold for an external `ordec-lsp`
+- a VS Code language client for an external `ordec-lsp`
 - a local-viewer bridge for launching ORDeC on the active `.ord` file
 
-The highlighting layer works on its own. The language-client layer is intended
-to connect to a future `ordec-lsp` binary once it is available.
+The highlighting layer works on its own. The language-client layer connects to
+an external `ordec-lsp` binary when one is available.
 
 ## What It Provides
 
@@ -28,6 +28,11 @@ to connect to a future `ordec-lsp` binary once it is available.
 - settings for launching an external `ordec-lsp`
 - settings for launching the ORDeC local viewer process
 - an optional ORD-specific dark theme
+
+When `ordec-lsp` is available, the extension can surface diagnostics, document
+symbols, document highlights, definition, hover, references, completions,
+rename, workspace symbols, folding ranges, selection ranges, and semantic
+tokens through the language server.
 
 ## What It Highlights
 
@@ -87,6 +92,55 @@ Copy the extension folder into your VS Code extensions directory.
 
 Then restart VS Code.
 
+## Runtime Setup
+
+### Regular ORDeC Installation
+
+For a normal packaged ORDeC installation, the extension should usually work with
+minimal configuration:
+
+- install ORDeC so that `ordec-lsp` and `ordec` are on your `PATH`
+- set `ord.viewer.moduleRoot` to the root directory of your ORD project
+- optionally set `ord.viewer.cwd` if ORDeC should start from a different working
+  directory than the workspace root
+
+In this setup, the default command settings are typically sufficient:
+
+- `ord.languageServer.command = "ordec-lsp"`
+- `ord.viewer.command = "ordec"`
+
+### Editable / Source Checkout ORDeC Installation
+
+If ORDeC is installed from a source checkout in editable mode, you will usually
+need explicit command paths and viewer arguments.
+
+Example settings:
+
+```json
+{
+  "ord.languageServer.command": "/path/to/ordec/.venv/bin/ordec-lsp",
+  "ord.languageServer.args": [],
+  "ord.languageServer.cwd": "/path/to/ordec",
+  "ord.viewer.command": "/path/to/ordec/.venv/bin/ordec",
+  "ord.viewer.args": [
+    "-r",
+    "/path/to/ordec/web/dist"
+  ],
+  "ord.viewer.env": {
+    "PYTHONUNBUFFERED": "1"
+  }
+}
+```
+
+Notes for editable installs:
+
+- `ordec` may need `-r /path/to/ordec/web/dist` because `webdist.tar` is not
+  bundled in editable mode
+- `PYTHONUNBUFFERED=1` can help the viewer bridge see ORDeC's printed launch URL
+  immediately
+- `ord.languageServer.trace.server = "messages"` is useful for debugging, but is
+  not part of normal setup
+
 ## Theme
 
 The extension includes an optional ORD-specific dark theme.
@@ -100,7 +154,7 @@ To enable it:
 ## Notes
 
 - The shipped highlighting remains TextMate/scope based.
-- The language-client scaffold does not bundle the language server itself.
+- The extension does not bundle the language server itself.
 - `ord.tmLanguage.json` is a thin ORDeC wrapper around `source.python`.
 - `ord-injection.tmLanguage.json` carries ORD-specific rules adapted from the
   JetBrains/MagicPython-derived TextMate grammar in this repository.
@@ -117,6 +171,22 @@ To enable it:
   redistribution obligations.
 - If you want structural parsing or tree-sitter-based editor support, use the
   tree-sitter implementation instead.
+
+## Troubleshooting
+
+- `spawn ordec-lsp ENOENT`
+  Configure `ord.languageServer.command` to the absolute path of `ordec-lsp`.
+
+- `webdist.tar not found`
+  In editable ORDeC installs, add `-r /path/to/ordec/web/dist` through
+  `ord.viewer.args`.
+
+- Viewer process starts but no browser opens
+  Set `ord.viewer.env.PYTHONUNBUFFERED = "1"` so the extension can read the
+  printed launch URL without waiting for buffered stdout.
+
+- Need to inspect raw LSP traffic
+  Temporarily set `ord.languageServer.trace.server = "messages"` or `"verbose"`.
 
 ## Language Server Settings
 

@@ -5,7 +5,8 @@ SPDX-License-Identifier: Apache-2.0
 
 # syntax_highlighting_ordec
 
-Shared syntax-highlighting and grammar repository for the ORD language.
+Shared editor-support, syntax-highlighting, and grammar repository for the ORD
+language.
 
 ORD is used by [ORDeC](https://github.com/tub-msc/ordec) and is syntactically
 close to Python, but it adds its own language constructs such as:
@@ -86,12 +87,16 @@ See:
 Implementation style:
 
 - TextMate grammar packaged as a VS Code extension
+- external `ordec-lsp` integration through a VS Code language client
+- ORDeC local-viewer bridge for opening the active module/view in the browser
 - includes language configuration and an optional theme
 
 Pros:
 
 - standard VS Code workflow
 - can be packaged as `.vsix`
+- can surface LSP features when `ordec-lsp` is installed
+- integrates with ORDeC local-mode viewing
 
 See:
 
@@ -102,8 +107,8 @@ See:
 Implementation style:
 
 - a real ORD parser derived from Python grammar
-- a small `ord-mode.el` package that loads gracefully even without local
-  grammar builds
+- a small `ord-mode.el` package with `eglot` / `lsp-mode` registration, viewer
+  commands, and graceful fallback even without local grammar builds
 - Emacs-specific queries layered on top
 - local Python tree-sitter grammar vendored for proper Python highlighting
 
@@ -111,7 +116,8 @@ Pros:
 
 - best long-term foundation for structural editor support
 - enables proper parsing instead of regex-only highlighting
-- suitable for future navigation, folding, imenu, and language-aware features
+- already suitable for highlighting, navigation, folding, imenu, and LSP-backed
+  language-aware features
 
 See:
 

@@ -1,7 +1,7 @@
 {
   "name": "ord",
   "displayName": "ORD",
-  "description": "Highlighting and language-client scaffolding for the ORD language",
+  "description": "Language support and ORDeC integration for the ORD language",
   "version": "0.0.1",
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "./extension.js",
