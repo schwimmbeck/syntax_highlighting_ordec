@@ -1,0 +1,43 @@
+import math
+from .helpers import foo, bar as baz
+from ordec.core import Cell
+
+CONSTANT = 42
+x = 1.5u
+y = 400n
+z = 3.14M
+
+def helper(x, y=1):
+    return x + y
+
+class Buffer(Cell):
+    pass
+
+cell Inv:
+    viewgen layout(layers=sky130) -> Layout:
+        port vdd:
+            .align = North
+        output y:
+            .align = East
+        Nmos n1:
+            .g -- y
+            .$l = 400n
+        path a, b
+        net out
+
+    viewgen symbol() -> Symbol:
+        input g:
+            .align = West
+        output d:
+            .align = East
+
+    def build(self):
+        value = self.g
+        return value
+
+cell Top:
+    Inv inv:
+        .g -- signal_in
+        .d -- signal_out
+    path vdd, vss
+    net clk

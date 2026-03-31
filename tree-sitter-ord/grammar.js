@@ -53,6 +53,7 @@ const PREC = {
 };
 
 const SEMICOLON = ';';
+const ORD_SI_SUFFIX = /[afpnumkMGT]/;
 
 module.exports = grammar({
   name: 'ord',
@@ -1252,10 +1253,11 @@ module.exports = grammar({
       ),
       seq(
         repeat1(/[0-9]+_?/),
-        choice(
-          optional(/[Ll]/), // long numbers
-          optional(/[jJ]/), // complex numbers
-        ),
+        optional(choice(
+          /[Ll]/, // long numbers
+          /[jJ]/, // complex numbers
+          ORD_SI_SUFFIX, // ORD SI-suffixed rationals like 400n
+        )),
       ),
     )),
 
@@ -1269,7 +1271,10 @@ module.exports = grammar({
           seq(optional(digits), '.', digits, optional(exponent)),
           seq(digits, exponent),
         ),
-        optional(/[jJ]/),
+        optional(choice(
+          /[jJ]/,
+          ORD_SI_SUFFIX, // ORD SI-suffixed rationals like 1.2u
+        )),
       ));
     },
 

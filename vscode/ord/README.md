@@ -11,6 +11,7 @@ This integration currently provides two layers:
 
 - TextMate-based highlighting and language configuration
 - a lightweight VS Code language-client scaffold for an external `ordec-lsp`
+- a local-viewer bridge for launching ORDeC on the active `.ord` file
 
 The highlighting layer works on its own. The language-client layer is intended
 to connect to a future `ordec-lsp` binary once it is available.
@@ -22,7 +23,10 @@ to connect to a future `ordec-lsp` binary once it is available.
 - file association for the `.ord` extension
 - language configuration
 - VS Code commands for restarting the ORD language server and opening its output
+- VS Code commands for launching and stopping an ORDeC local viewer for the active file
+- VS Code command for opening the current ORD view at the cursor in ORDeC
 - settings for launching an external `ordec-lsp`
+- settings for launching the ORDeC local viewer process
 - an optional ORD-specific dark theme
 
 ## What It Highlights
@@ -63,6 +67,9 @@ If you also want language-server features, make sure an `ordec-lsp` command is
 available on your `PATH`, or configure the launch command through the extension
 settings.
 
+If you also want the viewer bridge, make sure an `ordec` command is available
+on your `PATH`, or configure the viewer command through the extension settings.
+
 ### Option 2: Development Mode
 
 1. Open `vscode/ord/` in VS Code.
@@ -98,6 +105,14 @@ To enable it:
 - `ord-injection.tmLanguage.json` carries ORD-specific rules adapted from the
   JetBrains/MagicPython-derived TextMate grammar in this repository.
 - The client is designed to launch an external `ordec-lsp` over stdio.
+- The viewer bridge launches `ordec --no-browser --module ...`, reads the signed
+  local-mode URL from stdout, and opens it in your browser.
+- `ORD: Open Current View in ORDeC Viewer` derives view names like
+  `Inv().schematic` or `Amp().layout` from the current cursor position.
+- The active `.ord` file is saved before launching the viewer, because ORDeC
+  local mode reads from the file system.
+- The active file must live under `ord.viewer.moduleRoot`, and its relative path
+  must map cleanly to a Python-style import path such as `ord2.nmux`.
 - `LICENSE.md`, `LICENSE-MIT`, and `LICENSE-APACHE` document the package's
   redistribution obligations.
 - If you want structural parsing or tree-sitter-based editor support, use the
@@ -113,6 +128,25 @@ The extension contributes the following settings:
 - `ord.languageServer.cwd`
 - `ord.languageServer.env`
 - `ord.languageServer.trace.server`
+- `ord.viewer.command`
+- `ord.viewer.args`
+- `ord.viewer.cwd`
+- `ord.viewer.moduleRoot`
+- `ord.viewer.env`
+- `ord.viewer.hostname`
+- `ord.viewer.port`
+- `ord.viewer.urlAuthority`
 
 `ord.languageServer.command`, `args`, and `cwd` support
 `${workspaceFolder}` and `${extensionPath}` placeholders.
+
+The viewer settings also support `${workspaceFolder}`, `${extensionPath}`,
+`${file}`, `${fileDirname}`, `${fileBasename}`, and
+`${fileBasenameNoExtension}` placeholders.
+
+## Viewer Commands
+
+- `ORD: Open Active File in ORDeC Viewer`
+- `ORD: Open Current View in ORDeC Viewer`
+- `ORD: Stop ORDeC Viewer`
+- `ORD: Show ORDeC Viewer Output`

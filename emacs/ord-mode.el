@@ -185,5 +185,27 @@ ORD rules use :override t so they take precedence over Python ERROR nodes."
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.ord\\'" . ord-mode))
 
+;; --- LSP integration ---------------------------------------------------------
+
+(defcustom ord-mode-lsp-server-command '("ordec-lsp")
+  "Command and arguments used to start the ORD language server."
+  :type '(repeat string)
+  :group 'ord-mode)
+
+;; Eglot (built-in since Emacs 29).
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `(ord-mode . ,ord-mode-lsp-server-command)))
+
+;; lsp-mode (optional external package).
+(with-eval-after-load 'lsp-mode
+  (when (fboundp 'lsp-register-client)
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection (lambda () ord-mode-lsp-server-command))
+      :activation-fn (lsp-activate-on "ord")
+      :server-id 'ordec-lsp
+      :priority -1))))
+
 (provide 'ord-mode)
 ;;; ord-mode.el ends here

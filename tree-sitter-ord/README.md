@@ -43,6 +43,10 @@ Because of that, this grammar is implemented as:
   Emacs-specific highlight query
 - [queries/tags.scm](./queries/tags.scm):
   tags query
+- [queries/folds.scm](./queries/folds.scm):
+  shared folding query for tree-sitter-aware editors
+- [queries/locals.scm](./queries/locals.scm):
+  shared locals/scope query for tree-sitter-aware editors
 
 ## Build
 
@@ -65,6 +69,12 @@ Parse a sample file:
 
 ```bash
 tree-sitter parse /path/to/file.ord
+```
+
+Run the corpus and query smoke tests:
+
+```bash
+npm test
 ```
 
 ## Emacs Usage

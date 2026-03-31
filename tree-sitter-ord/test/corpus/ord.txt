@@ -1,0 +1,289 @@
+================================================================================
+ORD declarations and SI literals
+================================================================================
+
+cell Inv:
+    viewgen layout:
+        port vdd:
+            .align = North
+        output y:
+            .align = East
+        Nmos n1:
+            .g -- y
+            .$l = 400n
+
+path a, b
+net out
+
+--------------------------------------------------------------------------------
+
+(module
+  (cell_definition
+    name: (identifier)
+    body: (block
+      (viewgen_definition
+        name: (identifier)
+        body: (block
+          (context_definition
+            target: (context_target
+              (identifier))
+            body: (block
+              (ord_member_assignment
+                left: (ord_local_attribute
+                  attribute: (identifier))
+                right: (identifier))))
+          (context_definition
+            target: (context_target
+              (identifier))
+            body: (block
+              (ord_member_assignment
+                left: (ord_local_attribute
+                  attribute: (identifier))
+                right: (identifier))))
+          (context_definition
+            kind: (type
+              (identifier))
+            target: (context_target
+              (identifier))
+            body: (block
+              (ord_connection_statement
+                left: (ord_local_attribute
+                  attribute: (identifier))
+                right: (identifier))
+              (ord_member_assignment
+                left: (ord_parameter_access
+                  attribute: (identifier))
+                right: (integer))))))))
+(path_net_statement
+  name: (identifier)
+  name: (identifier))
+  (path_net_statement
+    name: (identifier)))
+
+================================================================================
+Viewgen parameters and context paths
+================================================================================
+
+viewgen layout(layers=sky130) -> Layout:
+    output bus[0].y:
+        .align = East
+
+--------------------------------------------------------------------------------
+
+(module
+  (viewgen_definition
+    name: (identifier)
+    parameters: (parameters
+      (default_parameter
+        name: (identifier)
+        value: (identifier)))
+    return_type: (type
+      (identifier))
+    body: (block
+      (context_definition
+        target: (context_target
+          (identifier)
+          subscript: (integer)
+          (identifier))
+        body: (block
+          (ord_member_assignment
+            left: (ord_local_attribute
+              attribute: (identifier))
+            right: (identifier)))))))
+
+================================================================================
+Trailing commas in path and net statements
+================================================================================
+
+path a, b,
+net out,
+viewgen symbol:
+    input tap[0]:
+        .align = West
+
+--------------------------------------------------------------------------------
+
+(module
+  (path_net_statement
+    name: (identifier)
+    name: (identifier))
+  (path_net_statement
+    name: (identifier))
+  (viewgen_definition
+    name: (identifier)
+    body: (block
+      (context_definition
+        target: (context_target
+          (identifier)
+          subscript: (integer))
+        body: (block
+          (ord_member_assignment
+            left: (ord_local_attribute
+              attribute: (identifier))
+            right: (identifier)))))))
+
+================================================================================
+Imports and function definitions
+================================================================================
+
+import math
+from .helpers import foo, bar as baz
+
+def helper(x, y=1):
+    return x + y
+
+--------------------------------------------------------------------------------
+
+(module
+  (import_statement
+    name: (dotted_name
+      (identifier)))
+  (import_from_statement
+    module_name: (relative_import
+      (import_prefix)
+      (dotted_name
+        (identifier)))
+    name: (dotted_name
+      (identifier))
+    name: (aliased_import
+      name: (dotted_name
+        (identifier))
+      alias: (identifier)))
+  (function_definition
+    name: (identifier)
+    parameters: (parameters
+      (identifier)
+      (default_parameter
+        name: (identifier)
+        value: (integer)))
+    body: (block
+      (return_statement
+        (binary_operator
+          left: (identifier)
+          right: (identifier))))))
+
+================================================================================
+Cell with superclass and SI-suffixed literals
+================================================================================
+
+cell Mux2(Cell):
+    viewgen layout(layers=sky130) -> Layout:
+        input a:
+            .width = 100n
+        input b:
+            .width = 1.5u
+
+--------------------------------------------------------------------------------
+
+(module
+  (cell_definition
+    name: (identifier)
+    superclasses: (argument_list
+      (identifier))
+    body: (block
+      (viewgen_definition
+        name: (identifier)
+        parameters: (parameters
+          (default_parameter
+            name: (identifier)
+            value: (identifier)))
+        return_type: (type
+          (identifier))
+        body: (block
+          (context_definition
+            target: (context_target
+              (identifier))
+            body: (block
+              (ord_member_assignment
+                left: (ord_local_attribute
+                  attribute: (identifier))
+                right: (integer))))
+          (context_definition
+            target: (context_target
+              (identifier))
+            body: (block
+              (ord_member_assignment
+                left: (ord_local_attribute
+                  attribute: (identifier))
+                right: (float)))))))))
+
+================================================================================
+Cross-file instantiation and connection patterns
+================================================================================
+
+from .inverter import Inv
+
+cell Top:
+    Inv inv:
+        .g -- signal_in
+        .d -- signal_out
+    path vdd, vss
+    net clk
+
+--------------------------------------------------------------------------------
+
+(module
+  (import_from_statement
+    module_name: (relative_import
+      (import_prefix)
+      (dotted_name
+        (identifier)))
+    name: (dotted_name
+      (identifier)))
+  (cell_definition
+    name: (identifier)
+    body: (block
+      (context_definition
+        kind: (type
+          (identifier))
+        target: (context_target
+          (identifier))
+        body: (block
+          (ord_connection_statement
+            left: (ord_local_attribute
+              attribute: (identifier))
+            right: (identifier))
+          (ord_connection_statement
+            left: (ord_local_attribute
+              attribute: (identifier))
+            right: (identifier))))
+      (path_net_statement
+        name: (identifier)
+        name: (identifier))
+      (path_net_statement
+        name: (identifier)))))
+
+================================================================================
+Class definition and mixed Python-ORD code
+================================================================================
+
+class Buffer(Cell):
+    pass
+
+cell Wrapper:
+    def build(self):
+        x = 1
+        return x
+
+--------------------------------------------------------------------------------
+
+(module
+  (class_definition
+    name: (identifier)
+    superclasses: (argument_list
+      (identifier))
+    body: (block
+      (pass_statement)))
+  (cell_definition
+    name: (identifier)
+    body: (block
+      (function_definition
+        name: (identifier)
+        parameters: (parameters
+          (identifier))
+        body: (block
+          (assignment
+            left: (identifier)
+            right: (integer))
+          (return_statement
+            (identifier)))))))

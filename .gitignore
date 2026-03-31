@@ -17,10 +17,14 @@ tree-sitter-ord/target/
 # AI assistant files
 CLAUDE.md
 AGENTS.md
+.claude
 
 # Editor/IDE config
 .vscode/
 .idea/
+
+# Node.js
+vscode/ord/node_modules/
 
 # Python
 __pycache__/

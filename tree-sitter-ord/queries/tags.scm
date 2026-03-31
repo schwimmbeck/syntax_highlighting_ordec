@@ -1,7 +1,20 @@
 ; SPDX-FileCopyrightText: 2016 Max Brunsfeld
-; SPDX-License-Identifier: MIT
+; SPDX-FileCopyrightText: 2026 ORDeC contributors
+; SPDX-License-Identifier: MIT AND Apache-2.0
 
 (module (expression_statement (assignment left: (identifier) @name) @definition.constant))
+
+(cell_definition
+  name: (identifier) @name) @definition.class
+
+(viewgen_definition
+  name: (identifier) @name) @definition.function
+
+(context_definition
+  target: (context_target (identifier) @name)) @definition.constant
+
+(path_net_statement
+  name: (identifier) @name) @definition.constant
 
 (class_definition
   name: (identifier) @name) @definition.class
