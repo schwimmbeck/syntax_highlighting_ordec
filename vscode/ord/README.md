@@ -114,23 +114,27 @@ In this setup, the default command settings are typically sufficient:
 If ORDeC is installed from a source checkout in editable mode, you will usually
 need explicit command paths and viewer arguments.
 
-Example settings:
+Example settings when the VS Code workspace is the ORDeC source checkout:
 
 ```json
 {
-  "ord.languageServer.command": "/path/to/ordec/.venv/bin/ordec-lsp",
+  "ord.languageServer.command": "${workspaceFolder}/.venv/bin/ordec-lsp",
   "ord.languageServer.args": [],
-  "ord.languageServer.cwd": "/path/to/ordec",
-  "ord.viewer.command": "/path/to/ordec/.venv/bin/ordec",
+  "ord.languageServer.cwd": "${workspaceFolder}",
+  "ord.viewer.command": "${workspaceFolder}/.venv/bin/ordec",
   "ord.viewer.args": [
     "-r",
-    "/path/to/ordec/web/dist"
+    "${workspaceFolder}/web/dist"
   ],
   "ord.viewer.env": {
     "PYTHONUNBUFFERED": "1"
   }
 }
 ```
+
+If the VS Code workspace is your design project instead of the ORDeC source
+checkout, replace `${workspaceFolder}` with the absolute path to the ORDeC
+checkout or virtual environment.
 
 Notes for editable installs:
 
